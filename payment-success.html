@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .payment-section {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .receipt-upload button  {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .receipt-upload button:hover {
+            background: #dd0303f5;
+            color: #fdfdfd;
+        }
+        .receipt-upload input,
+        .receipt-upload button {
+            width: 70%;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background-color: #212121;
+        color: #fff;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        }
+        .verification-section button  {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            container: flex;
+        }
+        .verification-section button:hover {
+            background: #07dd03f5;
+            color: #fdfdfd;
+        }
+        .verification-section input,
+        .verification-section button {
+            width: 20%;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background-color: #212121;
+        color: #fff;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        }
+        
+        .phone-input input,
+        .verification-section button {
+            width: 40%;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background-color: #212121;
+        color: #fff;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        }
+        .payment-methods button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .payment-methods button:hover {
+            background: #9900ffa6;
+            color: #000;
+        }
+        
+        .proceed-btn {
+            width: 40%;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background-color: #212121;
+        color: #fff;
+        font-size: 1em;
+        transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        .proceed-btn:hover {
+            background: #0feb03;
+        }
+        .receipt-upload, .verification-section {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <section class="payment-section">
+        <div class="container">
+            <h1>Secure Your Subscription</h1>
+            <p>Complete your payment and enjoy premium services.</p>
+            
+            <div class="selected-plan">
+                <h2>Selected Plan: <span id="plan-name"></span></h2>
+                <p>Price: <span id="plan-price"></span></p>
+            </div>
+            
+            <div class="phone-input">
+                <h3>phone number</h3>
+                <input type="text" id="phone" placeholder="+251">
+            </div>
+            
+            <div class="payment-methods">
+                <h3>Select Payment Method:</h3>
+                <button class="payment-btn" onclick="selectPayment('Telebirr')">Telebirr</button>
+                <button class="payment-btn" onclick="selectPayment('CBE Birr')">CBE Birr</button>
+                <button class="payment-btn" onclick="selectPayment('Other')">Other Methods</button>
+            </div>
+            
+            <div class="receipt-upload">
+                <h3>Upload Payment Receipt:</h3>
+                <input type="file" id="receipt" accept="image/*">
+                <button onclick="deleteReceipt()">Delete Receipt</button>
+            </div>
+            
+            <div class="verification-section">
+                <h3>Enter Verification Code:</h3>
+                <input type="text" id="verification-code" placeholder="Enter code received">
+                <button onclick="verifyCode()">Verify</button>
+            </div>
+            
+            <button class="proceed-btn" onclick="proceedToPayment()">Submit for Verification</button>
+        </div>
+    </section>
+    
+    <script>
+        let selectedPayment = "";
+        let verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate unique 6-digit code
+
+        function selectPayment(method) {
+            selectedPayment = method;
+        }
+
+        function proceedToPayment() {
+            let phone = document.getElementById('phone').value;
+            let planName = localStorage.getItem("selectedPlan");
+            let planPrice = localStorage.getItem("selectedPrice");
+            let receiptFile = document.getElementById('receipt').files[0];
+            
+            if (!phone) {
+                alert("Please enter your phone number.");
+                return;
+            }
+            if (!selectedPayment) {
+                alert("Please select a payment method.");
+                return;
+            }
+            if (!receiptFile) {
+                alert("Please upload your payment receipt.");
+                return;
+            }
+            
+            let formData = new FormData();
+            formData.append("chat_id", "6819170061");
+            formData.append("photo", receiptFile);
+            formData.append("caption", `Payment Request:\nPlan: ${planName}\nPrice: ${planPrice}\nPhone: ${phone}\nPayment Method: ${selectedPayment}\nVerification Code: ${verificationCode}`);
+            
+            fetch(`https://api.telegram.org/bot7541046449:AAHS9Ml0uk44FrYiW6F4bbUCZvDjizh2cxM/sendPhoto`, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Payment receipt sent. Please check your Telegram for verification code.");
+            })
+            .catch(error => {
+                alert("Failed to send payment request. Try again.");
+            });
+        }
+
+        function verifyCode() {
+            let enteredCode = document.getElementById('verification-code').value;
+            
+            if (!enteredCode) {
+                alert("Please pay before proceeding!");
+                return;
+            }
+            if (enteredCode === verificationCode.toString()) {
+                alert("Welcome to the Future!");
+                window.location.href = "profile.html";
+            } else {
+                alert("HHH");
+            }
+        }
+        
+        function deleteReceipt() {
+            document.getElementById('receipt').value = "";
+            alert("Receipt deleted successfully.");
+        }
+
+        // Load selected plan and price from localStorage
+        document.getElementById("plan-name").innerText = localStorage.getItem("selectedPlan") || "Not Selected";
+        document.getElementById("plan-price").innerText = localStorage.getItem("selectedPrice") || "N/A";
+        document.addEventListener("DOMContentLoaded", function () {
+    let selectedPlan = JSON.parse(localStorage.getItem("selectedPlan"));
+    if (selectedPlan) {
+        document.getElementById("plan-name").innerText = selectedPlan.name;
+        document.getElementById("plan-price").innerText = selectedPlan.price;
+    }
+});
+   </script>
+</body>
+</html>

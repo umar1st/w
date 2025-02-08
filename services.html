@@ -1,0 +1,204 @@
+<section id="repair-services" class="dark-theme">
+    <div class="container">
+        <h2>Repair Services</h2>
+        <p>We offer professional repair services for various electronic devices.</p>
+        
+        <div class="repair-categories">
+            <div class="category" onclick="selectCategory('laptop')">
+                <img src="images/laptop-repair.jpg" alt="Laptop Repair">
+                <h3>Laptop Repair</h3>
+            </div>
+            <div class="category" onclick="selectCategory('phone')">
+                <img src="images/phone-repair.jpg" alt="Phone Repair">
+                <h3>Phone Repair</h3>
+            </div>
+            <div class="category" onclick="selectCategory('gaming')">
+                <img src="images/gaming-repair.jpg" alt="Gaming Console Repair">
+                <h3>Gaming Console Repair</h3>
+            </div>
+        </div>
+        
+        <div id="repair-form-container">
+            <h3>Request a Repair</h3>
+            <form id="repair-form" onsubmit="submitRepairRequest(event)">
+                <label for="device">Device Type:</label>
+                <input type="text" id="device" name="device" required>
+                
+                <label for="issue">Describe the Issue:</label>
+                <textarea id="issue" name="issue" required></textarea>
+                
+                <label for="contact">Contact Information:</label>
+                <input type="text" id="contact" name="contact" required>
+                
+                <button type="submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Modern Chat Page -->
+<div id="chat-page" style="display: none;" class="dark-theme">
+    <div id="chat-container">
+        <h3>Chat with Technician</h3>
+        <p>Send your real-time location and photos.</p>
+        <button onclick="sendLocation()">Send Location</button>
+        <input type="file" id="photo-upload" accept="image/*">
+        <button onclick="sendPhoto()">Send Photo</button>
+        <button onclick="finishChat()">Finish</button>
+    </div>
+</div>
+
+<!-- Tawk.to Live Chat Script -->
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/YOUR_TAWK_TO_ID/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<style>
+    /* Dark Theme Styles */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h2, h3 {
+    color: #ffcc00;
+}
+
+.repair-categories {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.category {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.category:hover {
+    transform: scale(1.05);
+}
+
+.category img {
+    max-width: 100px;
+    border-radius: 10px;
+}
+
+button {
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #ff9900;
+}
+
+#chat-page {
+    display: none;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#chat-container {
+    max-width: 500px;
+    margin: auto;
+}
+
+#photo-upload {
+    display: block;
+    margin: 10px auto;
+}
+
+#finish-btn {
+    background-color: #ff0000;
+}
+
+</style>
+<script>
+    function selectCategory(category) {
+    document.getElementById("device").value = category + " Repair";
+}
+
+function submitRepairRequest(event) {
+    event.preventDefault();
+    document.getElementById("repair-services").style.display = "none";
+    document.getElementById("chat-page").style.display = "block";
+
+    // Notify via Tawk.to
+    if (Tawk_API && Tawk_API.addEvent) {
+        Tawk_API.addEvent('Repair Request Submitted', {
+            category: document.getElementById("device").value,
+            issue: document.getElementById("issue").value,
+            contact: document.getElementById("contact").value
+        });
+    }
+}
+
+function sendLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const location = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+
+            if (Tawk_API && Tawk_API.addEvent) {
+                Tawk_API.addEvent('Location Sent', { location: location });
+            }
+
+            alert("Location sent to technician.");
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+function sendPhoto() {
+    const photoInput = document.getElementById("photo-upload");
+    if (photoInput.files.length > 0) {
+        alert("Photo sent successfully!");
+
+        if (Tawk_API && Tawk_API.addEvent) {
+            Tawk_API.addEvent('Photo Sent', { fileName: photoInput.files[0].name });
+        }
+    } else {
+        alert("Please select a photo to send.");
+    }
+}
+
+function finishChat() {
+    alert("Our technician will visit you soon!");
+    document.getElementById("chat-page").style.display = "none";
+    document.getElementById("repair-services").style.display = "block";
+
+    if (Tawk_API && Tawk_API.addEvent) {
+        Tawk_API.addEvent('Chat Finished', { status: "Completed" });
+    }
+}
+
+</script>

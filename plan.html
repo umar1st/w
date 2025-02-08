@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Plans</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Your Subscription Plan</h1>
+        <div class="subscription-cards">
+            <div class="card">
+                <h2>Monthly Plan</h2>
+                <p class="price">$10/month</p>
+                <ul>
+                    <li>Access to basic content</li>
+                    <li>Community support</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+            <div class="card">
+                <h2>Yearly Plan</h2>
+                <p class="price">$100/year</p>
+                <ul>
+                    <li>Access to basic content</li>
+                    <li>Community support</li>
+                    <li>1 month free</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+            <div class="card premium">
+                <h2>Premium Plan</h2>
+                <p class="price">$20/month</p>
+                <ul>
+                    <li>Access to exclusive content</li>
+                    <li>Early access to new features</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+            <div class="card vip">
+                <h2>VIP Plan</h2>
+                <p class="price">$50/month</p>
+                <ul>
+                    <li>All Premium features</li>
+                    <li>Personal support</li>
+                    <li>Exclusive events</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 40px;
+    font-size: 2.5em;
+}
+
+.subscription-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+}
+
+.card h2 {
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 1.5em;
+    color: #00ffcc;
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+.subscribe-btn {
+    background-color: #00ffcc;
+    color: #121212;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.subscribe-btn:hover {
+    background-color: #00e6b3;
+    transform: scale(1.05);
+}
+
+/* Highlight premium and VIP cards */
+.premium {
+    border: 2px solid #ffcc00; /* Gold border for premium */
+}
+
+.vip {
+    border: 2px solid #ff0000; /* Red border for VIP */
+}
+
+</style>
+<script>
+    document.getElementById('show-signup').onclick = function() {
+    document.getElementById('login-form').parentElement.classList.add('hidden');
+    document.getElementById('signup-box').classList.remove('hidden');
+};
+
+document.getElementById('show-login').onclick = function() {
+    document.getElementById('signup-box').classList.add('hidden');
+    document.getElementById('login-form').parentElement.classList.remove('hidden');
+};
+
+// Handle login form submission
+document.getElementById('login-form').onsubmit = function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    // Basic validation
+    if (email && password) {
+        // Here you would typically send the data to your server
+        alert(Login successful for ${email});
+        // Reset the form
+        this.reset();
+    } else {
+        alert("Please fill in all fields.");
+    }
+};
+
+// Handle signup form submission
+document.getElementById('signup-form').onsubmit = function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    // Basic validation
+    if (email && password) {
+        // Here you would typically send the data to your server
+        alert(Signup successful for ${email});
+        // Reset the form
+        this.reset();
+    } else {
+        alert("Please fill in all fields.");
+    }
+};
+
+</script>

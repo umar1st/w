@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section id="profile-section" class="profile-section">
+        <div class="profile-header">
+            <h2 id="user-name">Welcome, User</h2>
+            <div id="profile-badge" class="profile-badge"></div>
+        </div>
+        <p id="subscription-status">Subscription: Free</p>
+        <!-- Other profile details here -->
+    </section>
+    
+</body>
+</html>
+<style>
+    /* Profile Section Styling */
+.profile-section {
+    text-align: center;
+    color: white;
+    padding: 50px 20px;
+    background-color: #121212;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#user-name {
+    font-size: 2.5em;
+    margin-right: 20px;
+}
+
+#subscription-status {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+/* Profile Badge */
+.profile-badge {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ff4d4d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Badge Animation for VIP */
+.vip-badge-animation {
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    }
+    100% {
+        box-shadow: 0 0 15px #FFD700, 0 0 25px #FFD700, 0 0 35px #FFD700;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #user-name {
+        font-size: 2em;
+    }
+
+    #subscription-status {
+        font-size: 1.2em;
+    }
+
+    .profile-badge {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+
+</style>
+<script>
+    // Function to set user data to localStorage (this would happen during signup or subscription change)
+function setUserProfile(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+}
+
+// Function to retrieve user data
+function getUserProfile() {
+    return JSON.parse(localStorage.getItem('user'));
+}
+
+// Function to apply profile distinction based on subscription
+function applyProfileDistinction() {
+    const user = getUserProfile();
+    if (!user) {
+        alert("No user found. Please log in.");
+        return;
+    }
+
+    // Display user's name and subscription status
+    const userName = document.getElementById('user-name');
+    const subscriptionStatus = document.getElementById('subscription-status');
+    const profileBadge = document.getElementById('profile-badge');
+
+    userName.textContent = `Welcome, ${user.name}`;
+    subscriptionStatus.textContent = `Subscription: ${user.subscription}`;
+
+    // Apply distinct styles based on subscription level
+    switch (user.subscription) {
+        case 'Free':
+            document.body.style.backgroundColor = '#121212'; // Dark theme for free users
+            profileBadge.style.backgroundColor = '#ff4d4d'; // Red badge for free
+            break;
+        case 'Premium':
+            document.body.style.backgroundColor = '#333333'; // Slightly lighter for premium
+            profileBadge.style.backgroundColor = '#00e5ff'; // Blue badge for premium
+            break;
+        case 'VIP':
+            document.body.style.backgroundColor = '#1a1a1a'; // VIP gets darker background
+            profileBadge.style.backgroundColor = '#FFD700'; // Gold badge for VIP
+            break;
+        default:
+            document.body.style.backgroundColor = '#121212'; // Default dark theme if no subscription
+            profileBadge.style.backgroundColor = '#ff4d4d'; // Default to free style if subscription is unknown
+            break;
+    }
+
+    // Add custom animation to the profile badge for VIP users
+    if (user.subscription === 'VIP') {
+        profileBadge.classList.add('vip-badge-animation');
+    } else {
+        profileBadge.classList.remove('vip-badge-animation');
+    }
+}
+
+// Call this function when the profile page is loaded
+window.onload = applyProfileDistinction;
+
+</script>

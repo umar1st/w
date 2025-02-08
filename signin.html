@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section>
+        <div class="sign-up">
+            <h2 class="form-title">Sign Up</h2>
+            <form id="sign-up-form">
+                <div class="input-group">
+                    <input type="text" id="first-name" placeholder="First Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="middle-name" placeholder="Middle Name">
+                </div>
+                <div class="input-group">
+                    <input type="text" id="last-name" placeholder="Last Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <select id="country-code">
+                        <option value="+1">+1 (US)</option>
+                        <option value="+251">+251 (Ethiopia)</option>
+                        <!-- Add other country options here -->
+                    </select>
+                    <input type="text" id="sign-up-phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="sign-up-password" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="cta-btn">Sign Up</button>
+                <p>Already have an account? <a href="#" id="switch-to-signin">Sign In</a></p>
+            </form>
+        </div>
+        </section>
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="loginForm">
+                <h2 class="form-title">Sign In</h2>
+                <form id="sign-in-form">
+                    <div class="input-group">
+                        <input type="text" id="sign-in-phone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="sign-in-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="cta-btn">Sign In</button>
+                    <p>Don't have an account? <a href="#" id="switch-to-signup">Sign Up</a></p>
+                </form>
+            </div>
+
+            <div class="loginForm hidden">
+                <h2 class="form-title">Sign Up</h2>
+                <form id="sign-up-form">
+                    <div class="input-group">
+                        <input type="text" id="first-name" placeholder="First Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="middle-name" placeholder="Middle Name">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="last-name" placeholder="Last Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <select id="country-code">
+                            <option value="+1">+1 (US)</option>
+                            <option value="+251">+251 (Ethiopia)</option>
+                            <!-- Add other country options here -->
+                        </select>
+                        <input type="text" id="sign-up-phone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="sign-up-password" placeholder="Password" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                    </div>
+                    <button type="submit" class="cta-btn">Sign Up</button>
+                    <p>Already have an account? <a href="#" id="switch-to-signin">Sign In</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.auth-section {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.loginForm {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-title {
+    font-size: 2em;
+    color: #00e5ff;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background-color: #212121;
+    color: #fff;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+select:focus {
+    border-color: #00e5ff;
+}
+
+button.cta-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #00e5ff, #ff4081);
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.cta-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #ff4081, #ff80ab);
+}
+
+p {
+    text-align: center;
+    color: #bbb;
+}
+
+a {
+    color: #00e5ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+</style>
+<script>
+// DOM Elements
+const signUpForm = document.getElementById('sign-up-form');
+const signInForm = document.getElementById('sign-in-form');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirm-password');
+const signUpBtn = document.getElementById('sign-up-btn');
+const signInPhoneInput = document.getElementById('sign-in-phone');
+const signInPasswordInput = document.getElementById('sign-in-password');
+const signInBtn = document.getElementById('sign-in-btn');
+
+// Store user data in localStorage (For demo purposes)
+function saveUserData(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+}
+
+// Sign Up Validation and User Creation
+signUpForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Get form values
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const password = passwordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+
+    // Validate inputs
+    if (password.length < 6) {
+        alert('Password must be at least 6 characters long');
+        return;
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email');
+        return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/; // Assuming phone is a 10-digit number (for demo, can be adjusted)
+    if (!phoneRegex.test(phone)) {
+        alert('Please enter a valid phone number');
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+    }
+
+    // Create user object
+    const user = {
+        name,
+        email,
+        phone,
+        password,
+    };
+
+    // Save user data to localStorage (for demonstration purposes)
+    saveUserData(user);
+
+    // Redirect to profile page or login page after successful sign-up
+    alert('Sign up successful! Please log in.');
+    window.location.href = 'index.html'; // Redirect to login page (for example)
+});
+
+// Sign In Validation
+signInForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Get form values
+    const signInPhone = signInPhoneInput.value.trim();
+    const signInPassword = signInPasswordInput.value.trim();
+
+    // Get saved user data from localStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    // Validate login credentials
+    if (!storedUser || storedUser.phone !== signInPhone || storedUser.password !== signInPassword) {
+        alert('Wrong phone number or password');
+        return;
+    }
+
+    // If credentials are correct, redirect to profile page
+    window.location.href = 'profile.html'; // Redirect to profile page (for example)
+});
+
+</script>

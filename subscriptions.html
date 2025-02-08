@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Plans</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="subscription-plans">
+    <div class="container">
+      <h1>Choose Your Plan & Stay Connected to the Future!</h1>
+      <p>Get premium tech support and repair services with our exclusive plans.</p>
+      <div class="plans">
+        <div class="plan-card" id="yearly">
+          <div class="plan-badge blue"></div>
+          <h3>Yearly Plan</h3>
+          <p class="price" id="yearly-price">$199</p>
+          <p class="features">Long-term support, best value</p>
+          <button class="subscribe-btn" onclick="selectPlan('Yearly', '$199')">Subscribe Now</button>
+        </div>
+        <div class="plan-card" id="monthly">
+          <div class="plan-badge green"></div>
+          <h3>Monthly Plan</h3>
+          <p class="price" id="monthly-price">$20</p>
+          <p class="features">Short-term, flexible option</p>
+          <button class="subscribe-btn" onclick="selectPlan('Monthly', '$20')">Subscribe Now</button>
+        </div>
+        <div class="plan-card" id="premium">
+          <div class="plan-badge gold"></div>
+          <h3>Premium Plan</h3>
+          <p class="price" id="premium-price">$49</p>
+          <p class="features">Priority support & extra benefits</p>
+          <button class="subscribe-btn" onclick="selectPlan('Premium', '$49')">Subscribe Now</button>
+        </div>
+        <div class="plan-card" id="vip">
+          <div class="plan-badge red"></div>
+          <h3>VIP Plan</h3>
+          <p class="price" id="vip-price">$99</p>
+          <p class="features">Ultimate package with VIP privileges</p>
+          <button class="subscribe-btn" onclick="selectPlan('VIP', '$99')">Subscribe Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #121212;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.subscription-plans {
+  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 50px;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  justify-items: center;
+}
+
+.plan-card {
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 300px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.plan-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.plan-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.plan-badge.blue {
+  background-color: #00aaff;
+}
+
+.plan-badge.green {
+  background-color: #32cd32;
+}
+
+.plan-badge.gold {
+  background-color: #ffd700;
+}
+
+.plan-badge.red {
+  background-color: #e60000;
+}
+
+h3 {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.features {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.subscribe-btn {
+  background-color: #00aaff;
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.subscribe-btn:hover {
+  background-color: #0088cc;
+}
+
+</style>
+<script>
+    // JavaScript to handle plan selection and price update dynamically
+function selectPlan(planName, planPrice) {
+  alert(`You selected the ${planName} with the price of ${planPrice}`);
+  // You can add more functionality here, like redirecting to the payment page with the selected plan info.
+}
+function selectPlan(planName, planPrice) {
+    localStorage.setItem("selectedPlan", JSON.stringify({ name: planName, price: planPrice }));
+    window.location.href = "payment-success.html"; // Redirect to Payment Page
+}
+
+</script>

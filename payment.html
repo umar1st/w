@@ -1,0 +1,144 @@
+<!-- Payment Verification Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Verification</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .payment-container {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+        button {
+            background-color: #6200ea;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+        .celebration {
+            display: none;
+            font-size: 1.5em;
+            color: #00ff99;
+            font-weight: bold;
+            animation: popUp 1s ease-in-out;
+        }
+        @keyframes popUp {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Subscription Summary</h2>
+        <p>Package: <span id="selectedPackage"></span></p>
+        <p>Price: $<span id="selectedPrice"></span></p>
+        
+        <h3>Enter Your Details</h3>
+        <label>Phone Number: <input type="text" id="phoneNumber" placeholder="Enter your phone number"></label>
+        <label>Email (Optional): <input type="email" id="email" placeholder="Enter your email"></label>
+        
+        <h3>Upload Receipt via Tawk.to</h3>
+        <p>Send your receipt through Tawk.to chat.</p>
+        <input type="file" id="receipt">
+        <button id="generateCode">Generate Verification Code</button>
+        
+        <h3>Enter Verification Code</h3>
+        <input type="text" id="verificationCode" placeholder="Enter Code">
+        <button id="verifyPayment">Verify & Upgrade</button>
+
+        <p id="celebration" class="celebration"></p>
+    </div>
+    
+    <script>
+        let verificationCode = "";
+        let selectedSubscription = "";
+        let selectedPrice = "";
+
+        function setSubscription(subscription, price) {
+            selectedSubscription = subscription;
+            selectedPrice = price;
+            localStorage.setItem("subscription", subscription);
+            localStorage.setItem("price", price);
+            window.location.href = "payment.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("selectedPackage").innerText = localStorage.getItem("subscription") || "Not selected";
+            document.getElementById("selectedPrice").innerText = localStorage.getItem("price") || "0";
+        
+            document.getElementById("generateCode").addEventListener("click", function() {
+                if (receiptUploadedViaTawk()) {
+                    verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+                    let receiptFile = document.getElementById("receipt").files[0];
+                    sendToTelegram(verificationCode, true, receiptFile);
+                    alert("Your receipt has been sent for verification. Wait for approval.");
+                } else {
+                    alert("Please upload your receipt via Tawk.to before requesting a code.");
+                }
+            });
+
+            document.getElementById("verifyPayment").addEventListener("click", function() {
+                let enteredCode = document.getElementById("verificationCode").value;
+                if (enteredCode === verificationCode) {
+                    document.getElementById("celebration").style.display = "block";
+                    document.getElementById("celebration").innerText = `Subscription Upgraded: ${localStorage.getItem("subscription")}`;
+                    setTimeout(() => { window.location.href = "profile.html"; }, 3000);
+                } else {
+                    alert("Wrong verification code! Please try again.");
+                }
+            });
+        });
+
+        function sendToTelegram(code, receiptUploaded, receiptFile) {
+            const botToken = '7541046449:AAHS9Ml0uk44FrYiW6F4bbUCZvDjizh2cxM';
+            const chatId = '6819170061';
+            let phoneNumber = document.getElementById("phoneNumber").value;
+            let email = document.getElementById("email").value;
+            const message = `📧 New Payment Verification\n\n📞 Phone: ${phoneNumber}\n📧 Email: ${email || "Not provided"}\n📦 Subscription: ${localStorage.getItem("subscription")}\n💰 Price: ${localStorage.getItem("price")}\n🔑 Verification Code: ${code}\n📸 Receipt Uploaded: ${receiptUploaded ? "Yes" : "No"}`;
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`);
+            
+            if (receiptFile) {
+                let formData = new FormData();
+                formData.append("chat_id", chatId);
+                formData.append("document", receiptFile);
+                fetch(`https://api.telegram.org/bot${botToken}/sendDocument`, {
+                    method: "POST",
+                    body: formData
+                });
+            }
+        }
+
+        function receiptUploadedViaTawk() {
+            return confirm("Has the receipt been uploaded to Tawk.to?");
+        }
+    </script>
+</body>
+</html>

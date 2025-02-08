@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Where Technology</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Secure Checkout</h1>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+
+    <section class="checkout-container">
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <ul id="cart-items">
+                <!-- Cart items will be dynamically inserted here -->
+            </ul>
+            <p class="total-price">Total: <span id="totalAmount">$0</span></p>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+            <h2>Select Payment Method</h2>
+            <label>
+                <input type="radio" name="payment" value="telebirr" checked> Telebirr
+            </label>
+            <label>
+                <input type="radio" name="payment" value="cbe-birr"> CBE Birr
+            </label>
+            <label>
+                <input type="radio" name="payment" value="paypal"> PayPal
+            </label>
+        </div>
+
+        <!-- Checkout Button -->
+        <button id="checkoutBtn">Proceed to Payment</button>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.back-btn {
+    color: #00c3ff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.checkout-container {
+    max-width: 400px;
+    margin: auto;
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.order-summary {
+    text-align: left;
+}
+
+#cart-items {
+    list-style: none;
+    padding: 0;
+}
+
+#cart-items li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #333;
+}
+
+.total-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.payment-methods {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.payment-methods label {
+    display: block;
+    margin: 5px 0;
+}
+
+#checkoutBtn {
+    background: #00c3ff;
+    color: white;
+    padding: 10px 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#checkoutBtn:hover {
+    background: #008ecc;
+}
+
+</style>
+<script>
+    // Load cart items from local storage (Assumes cart is stored there)
+document.addEventListener("DOMContentLoaded", function () {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cartItemsContainer = document.getElementById("cart-items");
+    let totalAmount = 0;
+
+    cart.forEach(item => {
+        let listItem = document.createElement("li");
+        listItem.innerHTML = `${item.name} - $${item.price}`;
+        cartItemsContainer.appendChild(listItem);
+        totalAmount += item.price;
+    });
+
+    document.getElementById("totalAmount").innerText = `$${totalAmount}`;
+});
+
+// Handle checkout button click
+document.getElementById("checkoutBtn").addEventListener("click", function () {
+    let selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+
+    alert(`Redirecting to ${selectedPayment} payment gateway...`);
+    
+    // Simulate redirection
+    window.location.href = "payment-success.html"; // You can replace this with actual payment integration
+});
+
+</script>
